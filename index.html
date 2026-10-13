@@ -142,6 +142,24 @@ section{padding-block:72px}
 .case-photo figcaption{margin-top:8px;font-size:.9rem;color:#b9cadb}
 @media (max-width:820px){.case-card{grid-template-columns:1fr;padding:26px}}
 
+
+/* residential */
+.res-grid{display:grid;grid-template-columns:1fr 1.2fr;gap:40px;align-items:center}
+.res-copy{display:grid;gap:14px;align-content:start;min-width:0}
+.res-copy h2{font-size:clamp(2rem,4vw,2.8rem);color:var(--navy);font-weight:700}
+.res-copy p{margin:0;color:var(--muted)}
+.res-list{margin:0;padding:0;list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:8px 16px}
+.res-list li{padding-left:18px;position:relative}
+.res-list li::before{content:"";position:absolute;left:0;top:.62em;width:8px;height:8px;border-radius:2px;background:var(--teal)}
+.res-copy .btn{justify-self:start}
+.res-copy .res-area{font-size:.95rem}
+.res-area b{color:var(--ink)}
+.res-photos{display:grid;gap:14px;min-width:0}
+.shotwrap{margin:0}
+.shotwrap .shot{position:relative;border-radius:8px;overflow:hidden}
+.shotwrap img{width:100%;height:auto}
+@media (max-width:820px){.res-grid{grid-template-columns:1fr}.res-list{grid-template-columns:1fr}}
+
 /* crew */
 .crew{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
 .crew figure{margin:0;border-radius:8px;overflow:hidden;aspect-ratio:3/4;position:relative}
@@ -201,6 +219,7 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;
     <nav aria-label="Main">
       <a class="navlink" href="#services">Services</a>
       <a class="navlink" href="#work">Our Work</a>
+      <a class="navlink" href="#residential">Residential</a>
       <a class="navlink" href="#area">Service Area</a>
       <a class="btn btn-primary" href="#contact">Get a Quote</a>
     </nav>
@@ -313,6 +332,32 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;
     </div>
   </section>
 
+  <section id="residential" class="res">
+    <div class="wrap">
+      <div class="res-grid">
+        <div class="res-copy">
+          <p class="eyebrow">Residential</p>
+          <h2>Homeowners, we've got you too</h2>
+          <p>The same hot-water equipment and care we bring to shopping centers, for your home.</p>
+          <ul class="res-list">
+            <li>House washing</li>
+            <li>Driveways, walkways &amp; pavers</li>
+            <li>Tile roof cleaning</li>
+            <li>Fences</li>
+            <li>Gutters</li>
+            <li>Window cleaning</li>
+          </ul>
+          <p class="res-area"><b>Residential service area:</b> within about an hour of Groveland, including Clermont, Minneola, Mascotte, Montverde, Winter Garden, Windermere, Ocoee, Leesburg, Four Corners and Kissimmee.</p>
+          <a class="btn btn-ghost" href="#contact" data-type="Residential">Get a home quote</a>
+        </div>
+        <div class="res-photos">
+          <figure class="shotwrap"><div class="shot"><img src="img/res-roof.jpg" alt="Residential tile roof before and after cleaning" loading="lazy" width="1600" height="1066"><span class="tag b">Before</span><span class="tag a">After</span></div></figure>
+          <figure class="shotwrap"><div class="shot"><img src="img/res-fence.jpg" alt="White vinyl fence before and after cleaning" loading="lazy" width="1600" height="1344"><span class="tag b">Before</span><span class="tag a">After</span></div></figure>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <section id="area" class="area work">
     <div class="wrap">
       <div class="head" style="margin-bottom:0">
@@ -363,11 +408,17 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;
           <label>Email<input id="q-email" type="email" name="email" required autocomplete="email"></label>
           <label>Phone<input id="q-phone" type="tel" name="Phone" autocomplete="tel"></label>
         </div>
-        <label>Property address or city<input id="q-address" name="Property" required></label>
+        <div class="f2">
+          <label>Property type
+            <select id="q-type" name="Property type">
+              <option>Commercial</option><option>Residential</option>
+            </select></label>
+          <label>Property address or city<input id="q-address" name="Property" required></label>
+        </div>
         <div class="f2">
           <label>What needs cleaning?
             <select id="q-service" name="Service">
-              <option>Walkways &amp; storefronts</option><option>Building exterior / facade</option><option>Roof</option><option>Dumpster pads</option><option>Parking garage</option><option>Gutters</option><option>Multiple / not sure</option>
+              <option>Walkways, driveways &amp; storefronts</option><option>Building or house exterior</option><option>Roof</option><option>Dumpster pads</option><option>Parking garage</option><option>Gutters</option><option>Windows</option><option>Fences</option><option>Multiple / not sure</option>
             </select></label>
           <label>How often?
             <select id="q-freq" name="Frequency">
@@ -394,7 +445,8 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;
   // send people back to this site's thank-you page, wherever it is hosted
   var n=document.getElementById('q-next');
   if(n && location.protocol.indexOf('http')===0){ n.value=location.origin+location.pathname.replace(/[^\/]*$/,'')+'thanks.html'; }
-  var f=document.getElementById('q-freq');
+  var f=document.getElementById('q-freq'), ty=document.getElementById('q-type');
+  document.querySelectorAll('[data-type]').forEach(function(a){ a.addEventListener('click',function(){ if(ty){ ty.value=a.dataset.type; } }); });
   document.querySelectorAll('[data-freq]').forEach(function(a){
     a.addEventListener('click',function(){ if(f && a.dataset.freq){ f.value=a.dataset.freq; } });
   });
